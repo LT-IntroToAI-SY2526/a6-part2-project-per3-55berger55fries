@@ -3,10 +3,10 @@ Multivariable Linear Regression Project
 Assignment 6 Part 3
 
 Group Members:
-- 
-- 
-- 
-- 
+- Lyle
+- Aylish
+- Miranda
+- Elisabeth
 
 Dataset: [Name of your dataset]
 Predicting: [What you're predicting]
@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 
 # TODO: Update this with your actual filename
-DATA_FILE = 'your_data.csv'
+DATA_FILE = 'pizza_v1.csv'
 
 def load_and_explore_data(filename):
     """
@@ -34,14 +34,18 @@ def load_and_explore_data(filename):
     - Print summary statistics
     - Check for missing values
     """
+    # Your code here
+    data = pd.read_csv(filename)
     print("=" * 70)
     print("LOADING AND EXPLORING DATA")
     print("=" * 70)
-    
-    # Your code here
-    
-    pass
-
+    print(f"\nFirst 5 rows:")
+    print(data.head())
+    print(f"\nDataset shape: {data.shape[0]} rows, {data.shape[1]} columns")
+    print(f"\nBasic Statistics:")
+    print(data.describe())
+    print(f"\nColumn names: {list(data.columns)}")
+    return data
 
 def visualize_data(data):
     """
@@ -63,9 +67,40 @@ def visualize_data(data):
     
     # Your code here
     # Hint: Use subplots like in Part 2!
-    
-    pass
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    fig.suptitle('Song Features vs Popularity', fontsize = 16, fontweight = 'bold')
 
+    # first feature (duration)
+    axes[0,0].scatter(data['Duration'], data['Popularity'], color = 'blue', alpha = 0.6)
+    axes[0,0].set_xlabel('Duration (ms)')
+    axes[0,0].set_ylabel('Popularity (%)')
+    axes[0,0].set_title('Duration vs Popularity')
+    axes[0,0].grid(True, alpha=0.3)
+    
+    # second feature (danceability)
+    axes[0,1].scatter(data['Danceability'], data['Popularity'], color = 'green', alpha = 0.6)
+    axes[0,1].set_xlabel('Danceability')
+    axes[0,1].set_ylabel('Popularity (%)')
+    axes[0,1].set_title('Danceability vs Popularity')
+    axes[0,1].grid(True, alpha=0.3)
+
+    # third feature (extra sauce)
+    axes[1,0].scatter(data['Energy'], data['Popularity'], color = 'red', alpha = 0.6)
+    axes[1,0].set_xlabel('Energy')
+    axes[1,0].set_ylabel('Popularity (%)')
+    axes[1,0].set_title('Energy vs Popularity')
+    axes[1,0].grid(True, alpha=0.3)
+
+    # fourth feature (extra cheese)
+    axes[1,1].scatter(data['Tempo'], data['Popularity'], color = 'orange', alpha = 0.6)
+    axes[1,1].set_xlabel('Tempo')
+    axes[1,1].set_ylabel('Popularity (%)')
+    axes[1,1].set_title('Tempo vs. Popularity')
+    axes[1,1].grid(True, alpha = 0.3)
+
+    plt.tight_layout()
+    plt.savefig('feature_plots.png', dpi = 300, bbox_inches='tight')
+    plt.show()
 
 def prepare_and_split_data(data):
     """
@@ -165,7 +200,7 @@ def make_prediction(model):
     print("=" * 70)
     
     # Your code here
-    # Example: If predicting house price with [sqft, bedrooms, bathrooms]
+    # Example: If predicting house Popularity with [sqft, bedrooms, bathrooms]
     # sample = pd.DataFrame([[2000, 3, 2]], columns=feature_names)
     
     pass
