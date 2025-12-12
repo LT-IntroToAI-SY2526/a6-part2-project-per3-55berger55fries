@@ -209,7 +209,7 @@ def evaluate_model(model, X_test, y_test):
     
 
 
-def make_prediction(model):
+def make_prediction(model, duration, danceability, energy, tempo):
     """
     Make a prediction for a new example
     
@@ -229,8 +229,13 @@ def make_prediction(model):
     # Your code here
     # Example: If predicting house Popularity with [sqft, bedrooms, bathrooms]
     # sample = pd.DataFrame([[2000, 3, 2]], columns=feature_names)
+    feature_names = pd.DataFrame([[duration, danceability, energy, tempo]], columns=['Duration', 'Danceability', 'Energy', 'Tempo'])
+    predicted_popularity = model.predict(feature_names)[0]
+    print(f"\n=== New Prediction ===")
+    print(f"Song features: {duration:.0f} ms long, {danceability} danceability score, {energy} energy score, {tempo} tempo score")
+    print(f"Predicted popularity: ${predicted_popularity:,.2f}")
+    return predicted_popularity
     
-    pass
 
 
 if __name__ == "__main__":
