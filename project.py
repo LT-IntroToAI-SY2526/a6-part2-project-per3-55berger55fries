@@ -72,7 +72,7 @@ def visualize_data(data):
 
     # first feature (duration)
     axes[0,0].scatter(data['Duration'], data['Popularity'], color = 'blue', alpha = 0.6)
-    axes[0,0].set_xlabel('Duration (ms)')
+    axes[0,0].set_xlabel('Duration')
     axes[0,0].set_ylabel('Popularity (%)')
     axes[0,0].set_title('Duration vs Popularity')
     axes[0,0].grid(True, alpha=0.3)
@@ -122,13 +122,15 @@ def prepare_and_split_data(data):
     print("\n" + "=" * 70)
     print("PREPARING AND SPLITTING DATA")
     print("=" * 70)
-    
+    feature_columns = ['Duration', 'Danceability', 'Energy', 'Tempo']
     # Your code here
-    
-    pass
+    X = data[feature_columns]
+    y = data['Popularity']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=42)
+    return X_train, X_test, y_train, y_test
 
 
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, feature_names):
     """
     Train the linear regression model
     
@@ -148,10 +150,23 @@ def train_model(X_train, y_train):
     print("\n" + "=" * 70)
     print("TRAINING MODEL")
     print("=" * 70)
-    
     # Your code here
-    
-    pass
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    print(f"Intercept: {model.intercept_:.2f}")
+    print(f"\nCoefficients:")
+    for name, coef in zip(feature_names, model.coef_):
+        print(f"  {name}: {coef:2f}")
+    print(f"\nEquation")
+    equation = f"Popularity = "
+    for i, (name, coef) in enumerate(zip(feature_names, model.coef_)):
+        if i == 0:
+            equation += f"{coef:.2f} x {name}"
+        else:
+            equation += f" + ({coef:.2f}) x {name}"
+    equation += f" + {model.intercept_:.2f}"
+    print(equation)
+    return model 
 
 
 def evaluate_model(model, X_test, y_test):
@@ -178,8 +193,20 @@ def evaluate_model(model, X_test, y_test):
     print("=" * 70)
     
     # Your code here
+    predictions = model.predict(X_test)
+    r2 = r2_score(y_test, predictions)
+    mse = mean_squared_error(y_test, predictions)
+    rmse = np.sqrt(mse)
+    print(f"\n=== Model Performance ===")
+    print(f"R² Score: {r2:.4f}")
+    print(f"  → Model explains {r2*100:.2f}% of price variation")
+    print(f"\nRoot Mean Squared Error: ${rmse:.2f}")
+    print(f"  → On average, predictions are off by ${rmse:.2f}")
     
-    pass
+    
+   
+    return predictions
+    
 
 
 def make_prediction(model):
