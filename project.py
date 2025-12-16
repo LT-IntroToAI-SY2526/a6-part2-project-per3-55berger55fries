@@ -126,7 +126,7 @@ def prepare_and_split_data(data):
     # Your code here
     X = data[feature_columns]
     y = data['Popularity']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=42)
 
     return X_train, X_test, y_train, y_test
 
@@ -157,7 +157,7 @@ def train_model(X_train, y_train, feature_names):
     print(f"Intercept: {model.intercept_:.2f}")
     print(f"\nCoefficients:")
     for name, coef in zip(feature_names, model.coef_):
-        print(f"  {name}: {coef:2f}")
+        print(f"  {name}: {coef:.2f}")
     print(f"\nEquation")
     equation = f"Popularity = "
     for i, (name, coef) in enumerate(zip(feature_names, model.coef_)):
@@ -200,9 +200,9 @@ def evaluate_model(model, X_test, y_test):
     rmse = np.sqrt(mse)
     print(f"\n=== Model Performance ===")
     print(f"R² Score: {r2:.4f}")
-    print(f"  → Model explains {r2*100:.2f}% of price variation")
-    print(f"\nRoot Mean Squared Error: ${rmse:.2f}")
-    print(f"  → On average, predictions are off by ${rmse:.2f}")
+    print(f"  → Model explains {r2*100:.2f}% of popularity variation")
+    print(f"\nRoot Mean Squared Error: {rmse:.2f}%")
+    print(f"  → On average, predictions are off by {rmse:.2f}%")
     
     
    
@@ -234,7 +234,7 @@ def make_prediction(model, duration, danceability, energy, tempo):
     predicted_popularity = model.predict(feature_names)[0]
     print(f"\n=== New Prediction ===")
     print(f"Song features: {duration:.0f} ms long, {danceability} danceability score, {energy} energy score, {tempo} tempo score")
-    print(f"Predicted popularity: ${predicted_popularity:,.2f}")
+    print(f"Predicted popularity: {predicted_popularity:,.2f}%")
     return predicted_popularity
     
 
@@ -250,13 +250,13 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = prepare_and_split_data(data)
     
     # Step 4: Train
-    model = train_model(X_train, y_train)
+    model = train_model(X_train, y_train, ['Duration', 'Danceability', 'Energy', 'Tempo'])
     
     # Step 5: Evaluate
     predictions = evaluate_model(model, X_test, y_test)
     
     # Step 6: Make a prediction, add features as an argument
-    make_prediction(model)
+    make_prediction(model, 220, 0.7, 0.8, 120)
     
     print("\n" + "=" * 70)
     print("PROJECT COMPLETE!")
