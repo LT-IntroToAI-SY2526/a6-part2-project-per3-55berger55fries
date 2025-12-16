@@ -36,6 +36,7 @@ def load_and_explore_data(filename):
     """
     # Your code here
     data = pd.read_csv(filename)
+    data.columns = data.columns.str.capitalize()
     print("=" * 70)
     print("LOADING AND EXPLORING DATA")
     print("=" * 70)
