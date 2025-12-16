@@ -9,8 +9,8 @@ Group Members:
 - Elisabeth
 
 Dataset: [Name of your dataset]
-Predicting: [What you're predicting]
-Features: [List your features]
+Predicting: [Popularity]
+Features: [Duration, Danceability, Energy, Tempo]
 """
 
 import pandas as pd
@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 
 # TODO: Update this with your actual filename
-DATA_FILE = 'pizza_v1.csv'
+DATA_FILE = 'dataset.csv'
 
 def load_and_explore_data(filename):
     """
