@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 
 # TODO: Update this with your actual filename
-DATA_FILE = 'dataset.csv'
+DATA_FILE = 'spotify_dataset.csv'
 
 def load_and_explore_data(filename):
     """
@@ -127,6 +127,7 @@ def prepare_and_split_data(data):
     X = data[feature_columns]
     y = data['Popularity']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3, random_state=42)
+
     return X_train, X_test, y_train, y_test
 
 
